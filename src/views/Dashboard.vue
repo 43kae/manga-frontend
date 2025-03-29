@@ -19,17 +19,29 @@ export default {
             user: null
         };
     },
-    async mounted() {
-        try {
-            const response = await axios.get('http://localhost:3000/api/user', { withCredentials: true });
-            this.user = response.data;
-        } catch (error) {
-            console.error('Error fetching user:', error);
+    // Modify dashboard to use JWT
+    mounted() {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = '/';
+            return;
         }
+
+        axios.get('http://localhost:3000/api/user', {
+            headers: { Authorization: `Bearer ${token}` }
+        })
+            .then(response => {
+                this.user = response.data;
+            })
+            .catch(() => {
+                localStorage.removeItem('token');
+                window.location.href = '/';
+            });
     },
     methods: {
         logout() {
-            window.location.href = 'http://localhost:3000/logout';
+            localStorage.removeItem('token');
+            window.location.href = '/';
         }
     }
 };

@@ -1,32 +1,59 @@
+<template>
+  <div id="app">
+    <nav>
+      <router-link to="/">Home</router-link> |
+      <router-link v-if="isLoggedIn" to="/dashboard">Dashboard</router-link> |
+      <button v-if="isLoggedIn" @click="logout">Logout</button>
+    </nav>
+
+    <router-view />
+  </div>
+</template>
+
+
 <script>
 export default {
   data() {
     return {
-      message: '',
+      isLoggedIn: false,
     };
   },
-  async mounted() {
-    try {
-      const response = await this.$axios.get('http://localhost:3000/');
-      this.message = response.data;
-    } catch (error) {
-      console.error('Error fetching data:', error);
+  methods: {
+    checkAuth() {
+      const token = localStorage.getItem('token');
+      this.isLoggedIn = !!token;
+    },
+    logout() {
+      localStorage.removeItem('token');
+      this.isLoggedIn = false;
+      this.$router.push('/');
     }
   },
+  watch: {
+    $route() {
+      this.checkAuth();
+    }
+  }
 };
 </script>
 
-<template>
-  <div>
-    <h1>Manga PWA Frontend</h1>
-    <p>Backend Response: {{ message }}</p>
-  </div>
-</template>
-
 <style>
-body {
-  font-family: Arial, sans-serif;
-  text-align: center;
-  margin: 50px;
+nav {
+  padding: 10px;
+  background: #333;
+  color: white;
+}
+
+nav a {
+  color: white;
+  margin-right: 10px;
+  text-decoration: none;
+}
+
+button {
+  background: transparent;
+  color: white;
+  border: none;
+  cursor: pointer;
 }
 </style>
