@@ -6,6 +6,9 @@
 </template>
 
 <script>
+import { nextTick } from 'vue';
+import {fetchPopularManga, fetchPopularAnime} from '@/api/'
+
 export default {
     data() {
         return {
@@ -15,9 +18,16 @@ export default {
     mounted() {
         const urlParams = new URLSearchParams(window.location.search);
         const token = urlParams.get('token');
+
+        console.log("Token from URL:", token); // debugging
+
         if (token) {
             localStorage.setItem('token', token);
-            window.location.href = '/dashboard';
+            console.log("Token stored in localStorage:", localStorage.getItem('token'));
+
+            nextTick(() => {
+                window.location.href = '/dashboard';
+            });
         }
     }
 };

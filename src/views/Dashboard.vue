@@ -34,6 +34,7 @@ export default {
                 this.user = response.data;
             })
             .catch(() => {
+                console.error("Error fetching user:", error.response?.data || error.message);
                 localStorage.removeItem('token');
                 window.location.href = '/';
             });
