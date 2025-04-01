@@ -7,7 +7,6 @@
 
 <script>
 import { nextTick } from 'vue';
-import {fetchPopularManga, fetchPopularAnime} from '@/api/'
 
 export default {
     data() {
