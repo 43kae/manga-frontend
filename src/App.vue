@@ -1,8 +1,11 @@
+<!-- src/App.vue -->
 <template>
   <div id="app">
     <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link v-if="isLoggedIn" to="/dashboard">Dashboard</router-link> |
+      <router-link to="/" class="font-semibold hover:underline">Home</router-link> |
+      <router-link v-if="isLoggedIn" to="/dashboard" class="hover:underline">Dashboard</router-link> |
+      <router-link v-if="isLoggedIn" to="/manga" class="hover:underline">Manga</router-link> |
+      <router-link v-if="isLoggedIn" to="/anime" class="hover:underline">Anime</router-link> |
       <button v-if="isLoggedIn" @click="logout">Logout</button>
     </nav>
 
